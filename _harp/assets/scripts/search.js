@@ -25,13 +25,20 @@ Vue.component("rating-stars", {
     `
 });
 
+// https://stackoverflow.com/a/14428340
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
 let root = new Vue({
     el: "#root",
     data: {
         imdb: null,
         tmdb: null,
         genres: null,
-        query: null
+        query: null,
+        selectedMovie: null
     },
     computed: {
         encodedQuery: function() {
@@ -40,12 +47,11 @@ let root = new Vue({
     },
     methods: {
         populateData: function() {
-            let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&language=en-US&query=${this.encodedQuery}&page=1&include_adult=false`;            
+            let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&query=${this.encodedQuery}&page=1&include_adult=false`;            
             let imdbURI = `https://theimdbapi.org/api/find/movie?title=${this.encodedQuery}`;
             fetchJSON(tmdbURI)
                 .then((json) => root.tmdb = json.results)
                 .catch(alert);
-            //fetchJSON(imdbURI).then((json) => root.imdb = json);
         },
 
         applicableGenres: function(genre_ids) {
@@ -54,10 +60,22 @@ let root = new Vue({
                 .map(genre => genre.name)
         }
     },
+    watch: {
+        selectedMovie: function(newMovie) {
+            if (newMovie === null) return;
+            let movieURI = `https://api.themoviedb.org/3/movie/${newMovie.id}?api_key=${tmdbKey}&append_to_response=reviews`;
+            // Cache?
+            fetchJSON(movieURI)
+                .then((json) => {
+                    Object.assign(root.selectedMovie, json); // Merge the two JSON results together
+                    root.$forceUpdate();
+                });
+        }
+    },
     created: function() {
         let params = new URLSearchParams(window.location.search);
         if (params.has("q")) this.query = params.get("q");
-        let genresURI = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbKey}&language=en-US`;
+        let genresURI = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbKey}`;
         fetchJSON(genresURI)
             .then((json) => root.genres = json.genres)
             .then(() => {

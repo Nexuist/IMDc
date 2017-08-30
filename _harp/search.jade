@@ -9,26 +9,72 @@ block head
     title IMDc Search
 
 block body
+    .modal.is-active(v-if="selectedMovie")
+        .modal-background(v-on:click="selectedMovie = null")
+        .modal-card
+            header.modal-card-head
+                p.modal-card-title {{selectedMovie.title}}
+                button.delete(aria-label="Close", v-on:click="selectedMovie = null")
+            section.modal-card-body
+                .columns
+                    .column.is-one-quarter
+                        figure.image(v-if="selectedMovie")
+                            img(:src="selectedMovie !== null && selectedMovie.poster_path ? 'https://image.tmdb.org/t/p/w500' + selectedMovie.poster_path : 'http://via.placeholder.com/500x700?text=No+Poster'")
+                    .column
+                        .content
+                            h1.title.is-5 Quick Stats
+                            mixin stat(key, title)
+                                div(v-if="selectedMovie." + key)
+                                    - value = `{{selectedMovie.${key}}}`
+                                    b= title + " "
+                                    span= value 
+                            mixin detailed_stat(key, title)
+                                div(v-if="selectedMovie." + key) 
+                                    - property = key //- Mixin args aren't in block scope, so we save key here
+                                    - value = `{{selectedMovie.${key}}}`
+                                    b= title + " "
+                                    block
+                            +detailed_stat("vote_average", "Vote Average")
+                                span  #{value}/10 ({{selectedMovie.vote_count}} votes total)
+                            +stat("release_date", "Release Date")
+                            +detailed_stat("runtime", "Runtime")
+                                span #{value} minutes
+                            +detailed_stat("revenue", "Revenue")
+                                - value = `{{selectedMovie.${property}.format()}}`
+                                span $#{value}
+                            div(v-if="selectedMovie.production_companies")
+                                b Production Companies 
+                                span(v-for="company, index in selectedMovie.production_companies") {{index != 0 ? "," : null}} {{company.name}}
+
+
+                .movie-section(v-if="selectedMovie.tagline")
+                    h1.title.is-5 Tagline
+                    p {{selectedMovie.tagline}}
+                .movie-section(v-if="selectedMovie.overview")
+                    h1.title.is-5 Overview
+                    p {{selectedMovie.overview}}
+
     .container.is-fluid(style="padding:15px;")
         h1.subtitle(v-if="!tmdb") #[b 0] results
         h1.subtitle(v-else) #[b {{tmdb.length}}] result{{tmdb.length > 1 || tmdb.length == 0 ? "s" : null}}
         h1.title.is-4(v-if="tmdb && tmdb.length == 0") Try refining your search.
         .columns.is-multiline
             .column.is-one-quarter(v-for="movie in tmdb")
-                .card(style="height:100%;")
-                    .card-image
-                        figure.image
-                            img(:src="movie.poster_path ? 'https://image.tmdb.org/t/p/w500' + movie.poster_path : 'http://via.placeholder.com/500x700?text=No+Poster'", :class="{'is-hidden-mobile': movie.poster_path === null}")
-                    .card-content
-                        .media
-                            .media-content
-                                p.title.is-4 {{movie.title ? movie.title : "Untitled" }}
-                                p.subtitle.is-6(v-if="movie.vote_average") #[rating-stars(:rating="movie.vote_average")] ({{movie.vote_average}})
-                                p.subtitle.is-6.has-text-grey(v-else) No ratings available
-                        .content
-                            .tags(v-if="movie.genre_ids.length >= 1", style="margin-top:1em;")
-                                span.tag(v-for="(genre, index) in applicableGenres(movie.genre_ids)") {{genre}}
-                                //small() #[span(v-if="index != 0") · ] {{genre}}  
-                            div(v-else)
-                                small No genres available
-                        small(v-if="movie.release_date", style="position: absolute; bottom: 1em;") {{movie.release_date.substring(0, movie.release_date.indexOf("-"))}}                        
+                a(v-on:click="selectedMovie = movie")
+                    .card(style="height:100%;")
+                        .card-image
+                            figure.image
+                                //- Show something while loading??
+                                img(:src="movie.poster_path ? 'https://image.tmdb.org/t/p/w500' + movie.poster_path : 'http://via.placeholder.com/500x700?text=No+Poster'", :class="{'is-hidden-mobile': movie.poster_path === null}")
+                        .card-content
+                            .media
+                                .media-content
+                                    p.title.is-4 {{movie.title ? movie.title : "Untitled" }}
+                                    p.subtitle.is-6(v-if="movie.vote_average") #[rating-stars(:rating="movie.vote_average")] ({{movie.vote_average}})
+                                    p.subtitle.is-6.has-text-grey(v-else) No ratings available
+                            .content
+                                .tags(v-if="movie.genre_ids.length >= 1", style="margin-top:1em;")
+                                    span.tag(v-for="(genre, index) in applicableGenres(movie.genre_ids)") {{genre}}
+                                div(v-else)
+                                    small No genres available
+                            small(v-if="movie.release_date", style="position: absolute; bottom: 1em;") {{movie.release_date.substring(0, movie.release_date.indexOf("-"))}}                        
