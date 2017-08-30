@@ -1,0 +1,16 @@
+extends _templates/base.jade
+
+block head
+    +css("/assets/styles/index.css")
+    script(src="https://unpkg.com/vue")
+    script.
+        let tmdbKey = "#{tmdbKey}"
+    script(src="/assets/scripts/search.js", defer)
+    title IMDc Search
+
+block body
+    .container#root
+        h1.title TMDB
+        p {{tmdb}}
+        h1.title IMDB
+        p {{imdb}}
