@@ -20,8 +20,9 @@ Vue.component("rating-stars", {
     },
     template: `
         <span>
-            <i class = 'fa fa-star' v-for='x in fullStars'></i><i class = 'fa fa-star-half-o' v-if='halfStar'></i>
-        </span>`
+            <i class="fa fa-star" v-for="x in fullStars"></i><i class ="fa fa-star-half-o" v-if="halfStar"></i><i class = 'fa fa-star-o' v-for="x in 10 - (fullStars + halfStar)"></i>
+        </span>
+    `
 });
 
 let root = new Vue({
@@ -42,7 +43,7 @@ let root = new Vue({
             let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&language=en-US&query=${this.encodedQuery}&page=1&include_adult=false`;            
             let imdbURI = `https://theimdbapi.org/api/find/movie?title=${this.encodedQuery}`;
             fetchJSON(tmdbURI)
-                .then((json) => root.tmdb = json.results.filter((x) => x.poster_path !== null))
+                .then((json) => root.tmdb = json.results)
                 .catch(alert);
             //fetchJSON(imdbURI).then((json) => root.imdb = json);
         },
