@@ -27,26 +27,41 @@ Vue.component("rating-stars", {
 let root = new Vue({
     el: "#root",
     data: {
-        "imdb": null,
-        "tmdb": null,
-        "genres": null
+        imdb: null,
+        tmdb: null,
+        genres: null,
+        query: null
+    },
+    computed: {
+        encodedQuery: function() {
+            return encodeURIComponent(this.query)
+        }
     },
     methods: {
+        populateData: function() {
+            console.log(this.query);
+            let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&language=en-US&query=${this.encodedQuery}&page=1&include_adult=false`;            
+            let imdbURI = `https://theimdbapi.org/api/find/movie?title=${this.encodedQuery}`;
+            fetchJSON(tmdbURI)
+                .then((json) => root.tmdb = json.results.filter((x) => x.poster_path !== null))
+                .catch(alert);
+            //fetchJSON(imdbURI).then((json) => root.imdb = json);
+        },
+
         applicableGenres: function(genre_ids) {
-            return root.genres.filter((genre) => genre_ids.includes(genre.id));
+            return root.genres
+                .filter(genre => genre_ids.includes(genre.id))
+                .map(genre => genre.name)
         }
     },
-    mounted: function() {
+    created: function() {
         let params = new URLSearchParams(window.location.search);
-        if (params.has("q")) {
-            let movie = encodeURIComponent(params.get("q"));
-            let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&language=en-US&query=${movie}&page=1&include_adult=false`;            
-            let imdbURI = `https://theimdbapi.org/api/find/movie?title=${movie}`;
-            let genresURI = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbKey}&language=en-US`;
-            fetchJSON(genresURI).then((json) => root.genres = json.genres).then(() => {
-                fetchJSON(tmdbURI).then((json) => root.tmdb = json.results.filter((x) => x.poster_path !== null));
-                fetchJSON(imdbURI).then((json) => root.imdb = json);
-            });            
-        }
+        if (params.has("q")) this.query = params.get("q");
+        let genresURI = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbKey}&language=en-US`;
+        fetchJSON(genresURI)
+            .then((json) => root.genres = json.genres)
+            .then(() => {
+                if (this.query) this.populateData(this.encodedQuery);
+            });   
     }
 });

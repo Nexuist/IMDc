@@ -9,8 +9,9 @@ block head
     title IMDc Search
 
 block body
-    .container.is-fluid#root(style="padding:15px;")
-        h1.subtitle #[b {{tmdb && tmdb.length}}] results
+    .container.is-fluid(style="padding:15px;")
+        h1.subtitle(v-if="!tmdb") #[b 0] results
+        h1.subtitle(v-else) #[b {{tmdb.length}}] result{{tmdb.length > 1 ? "s" : null}}
         .columns.is-multiline
             .column.is-one-quarter(v-for="movie in tmdb")
                 .card
@@ -27,7 +28,7 @@ block body
                                 span {{movie.overview.substring(0, 100)}}...
                                 br
                             div(v-if="movie.genre_ids")
-                                small(v-for="(genre, index) in applicableGenres(movie.genre_ids)") #[span(v-if="index != 0") · ] {{genre.name}}  
+                                small(v-for="(genre, index) in applicableGenres(movie.genre_ids)") #[span(v-if="index != 0") · ] {{genre}}  
                                 br
                             small(v-if="movie.release_date") {{movie.release_date && movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
                         

@@ -14,6 +14,7 @@ html(lang = "en")
 		+css("/assets/styles/all.css")
 		block head
 	body
-		include navbar.jade
-		block body
-		include footer.jade
+		#root
+			include navbar.jade
+			block body
+			include footer.jade

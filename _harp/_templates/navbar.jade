@@ -1,3 +1,11 @@
 nav.navbar
     .navbar-brand   
-        a.navbar-item #[b IMDc]
+        a.navbar-item(href="/") #[b IMDc]
+    .navbar-menu
+        .navbar-end
+            .navbar-item
+                .field.has-addons
+                    .control
+                        input.input(type="text", placeholder="Search for a movie...", v-model="query", v-on:keyup.enter="populateData()")
+                    .control
+                        a.button.is-info #[i.fa.fa-search]
