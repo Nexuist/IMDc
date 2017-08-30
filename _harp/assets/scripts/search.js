@@ -13,8 +13,6 @@ function fetchJSON(fromURL) {
 Vue.component("rating-stars", {
     props: ['rating'],
     data: function() {
-        console.log(this.rating);
-        console.log(Math.floor(this.rating));
         return {
             "fullStars": Math.floor(this.rating),
             "halfStar": Math.round(this.rating) > Math.floor(this.rating)
@@ -33,6 +31,11 @@ let root = new Vue({
         "tmdb": null,
         "genres": null
     },
+    methods: {
+        applicableGenres: function(genre_ids) {
+            return root.genres.filter((genre) => genre_ids.includes(genre.id));
+        }
+    },
     mounted: function() {
         let params = new URLSearchParams(window.location.search);
         if (params.has("q")) {
@@ -40,10 +43,10 @@ let root = new Vue({
             let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&language=en-US&query=${movie}&page=1&include_adult=false`;            
             let imdbURI = `https://theimdbapi.org/api/find/movie?title=${movie}`;
             let genresURI = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbKey}&language=en-US`;
-            fetchJSON(tmdbURI).then((json) => root.tmdb = json.results);
-            fetchJSON(imdbURI).then((json) => root.imdb = json);
-            fetchJSON(genresURI).then((json) => root.genres = json);
-            
+            fetchJSON(genresURI).then((json) => root.genres = json.genres).then(() => {
+                fetchJSON(tmdbURI).then((json) => root.tmdb = json.results.filter((x) => x.poster_path !== null));
+                fetchJSON(imdbURI).then((json) => root.imdb = json);
+            });            
         }
     }
 });

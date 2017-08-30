@@ -23,9 +23,13 @@ block body
                                 p.title.is-4 {{movie.title ? movie.title : "Untitled" }}
                                 p.subtitle.is-6(v-if="movie.vote_average") #[rating-stars(:rating="movie.vote_average")] ({{movie.vote_average}})
                         .content
-                            span(v-if="movie.overview") {{movie.overview.substring(0, 100)}}...
-                            br(v-if="movie.overview")
-                            small {{movie.release_date && movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
+                            div(v-if="movie.overview")
+                                span {{movie.overview.substring(0, 100)}}...
+                                br
+                            div(v-if="movie.genre_ids")
+                                small(v-for="(genre, index) in applicableGenres(movie.genre_ids)") #[span(v-if="index != 0") · ] {{genre.name}}  
+                                br
+                            small(v-if="movie.release_date") {{movie.release_date && movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
                         
         //- p(v-for="movie in tmdb") 
         //-     | {{movie.title}}
