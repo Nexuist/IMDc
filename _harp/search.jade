@@ -1,7 +1,7 @@
 extends _templates/base.jade
 
 block head
-    +css("/assets/styles/index.css")
+    +css("/assets/styles/search.css")
     script(src="https://unpkg.com/vue")
     script.
         let tmdbKey = "#{tmdbKey}"
@@ -14,23 +14,24 @@ block body
         h1.subtitle(v-else) #[b {{tmdb.length}}] result{{tmdb.length > 1 ? "s" : null}}
         .columns.is-multiline
             .column.is-one-quarter(v-for="movie in tmdb")
-                .card
+                .card(style="height:100%;")
                     .card-image
                         figure.image
-                            img(:src="'https://image.tmdb.org/t/p/w1280' + movie.poster_path")
+                            img(:src="'https://image.tmdb.org/t/p/w500' + movie.poster_path")
                     .card-content
                         .media
                             .media-content
                                 p.title.is-4 {{movie.title ? movie.title : "Untitled" }}
                                 p.subtitle.is-6(v-if="movie.vote_average") #[rating-stars(:rating="movie.vote_average")] ({{movie.vote_average}})
+                                p.subtitle.is-6.has-text-grey(v-else) No ratings available
                         .content
-                            div(v-if="movie.overview")
-                                span {{movie.overview.substring(0, 100)}}...
-                                br
-                            div(v-if="movie.genre_ids")
-                                small(v-for="(genre, index) in applicableGenres(movie.genre_ids)") #[span(v-if="index != 0") · ] {{genre}}  
-                                br
-                            small(v-if="movie.release_date") {{movie.release_date && movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
+                            p.block-with-text(v-if="movie.overview") {{movie.overview}}
+                            .tags(v-if="movie.genre_ids.length >= 1", style="margin-top:1em;")
+                                span.tag(v-for="(genre, index) in applicableGenres(movie.genre_ids)") {{genre}}
+                                //small() #[span(v-if="index != 0") · ] {{genre}}  
+                            div(v-else)
+                                small No genres available
+                            small(v-if="movie.release_date") {{movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
                         
         //- p(v-for="movie in tmdb") 
         //-     | {{movie.title}}
