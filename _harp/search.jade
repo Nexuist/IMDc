@@ -9,8 +9,26 @@ block head
     title IMDc Search
 
 block body
-    .container#root
-        h1.title TMDB
-        p {{tmdb}}
-        h1.title IMDB
-        p {{imdb}}
+    .container.is-fluid#root(style="padding:15px;")
+        h1.subtitle #[b {{tmdb && tmdb.length}}] results
+        .columns.is-multiline
+            .column.is-one-quarter(v-for="movie in tmdb")
+                .card
+                    .card-image
+                        figure.image
+                            img(:src="'https://image.tmdb.org/t/p/w1280' + movie.poster_path")
+                    .card-content
+                        .media
+                            .media-content
+                                p.title.is-4 {{movie.title ? movie.title : "Untitled" }}
+                                p.subtitle.is-6(v-if="movie.vote_average") #[rating-stars(:rating="movie.vote_average")] ({{movie.vote_average}})
+                        .content
+                            span(v-if="movie.overview") {{movie.overview.substring(0, 100)}}...
+                            br(v-if="movie.overview")
+                            small {{movie.release_date && movie.release_date.substring(0, movie.release_date.indexOf("-"))}}
+                        
+        //- p(v-for="movie in tmdb") 
+        //-     | {{movie.title}}
+        //-     | 
+        //- h1.title IMDB
+        //- p {{imdb}}
