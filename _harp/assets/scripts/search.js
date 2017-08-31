@@ -78,6 +78,11 @@ let root = new Vue({
                     Object.assign(root.selectedMovie, json); // Merge the two JSON results together
                     root.$forceUpdate();
                 });
+        },
+        query: function(newQuery) {
+            if (history) {
+                history.replaceState({}, newQuery, `/search?q=${encodeURIComponent(newQuery)}`);
+            }         
         }
     },
     created: function() {
