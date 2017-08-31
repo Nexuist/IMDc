@@ -11,7 +11,7 @@ block body
             .container
                 h1.title IMDc
                 h2.subtitle ...Because IMDb was already taken
-    section.hero.is-dark.is-bold
+    section#searchbar.hero.is-dark.is-bold
         .hero-body
             .container
                 .field.has-addons
@@ -24,18 +24,18 @@ block body
                             i.fa.fa-search
                     .control
                         a.button.is-info(v-on:click="submitQuery") Search
-    .container.showcase
+    section#showcase.container.padded
         .columns
             .column
                 figure.image.showcase-icon
                     i.fa.fa-bar-chart
                 h1.title.has-text-centered Over 345,000 Movies Listed
-                h1.subtitle.has-text-centered Everything you're looking for, and probably more.
+                h2.subtitle.has-text-centered Everything you're looking for, and probably more.
             .column
                 figure.image.showcase-icon
                     i.fa.fa-code
                 h1.title.has-text-centered Open Source
-                h1.subtitle.has-text-centered You can find the source code on #[a(href="http://github.com/nexuist/IMDc", target="_blank") GitHub].
+                h2.subtitle.has-text-centered You can find the source code on #[a(href="http://github.com/nexuist/IMDc", target="_blank") GitHub].
             .column
                 figure.image.showcase-icon
                     img#tmdb-logo(src="https://www.themoviedb.org/assets/static_cache/4906bce946a19a848fb161e09dfcd1d2/images/v4/logos/primary-blue.svg")

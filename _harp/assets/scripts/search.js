@@ -44,10 +44,18 @@ let root = new Vue({
     computed: {
         encodedQuery: function() {
             return encodeURIComponent(this.query)
+        },
+        results: function() {
+            return this.tmdb ? this.tmdb.length : 0;
+        },
+        resultsText: function() {
+            if (!this.tmdb || this.tmdb.length == 0) return "results";
+            return this.tmdb.length > 1 ? "results" : "result";
         }
     },
     methods: {
         submitQuery: function() {
+            if (history) history.replaceState({}, this.query, `/search?q=${encodeURIComponent(this.query)}`);
             this.populateData();
         },
         populateData: function() {
@@ -64,8 +72,20 @@ let root = new Vue({
         truncateReviewText: function(fullText) {
             return fullText.length > 500 ? fullText.substring(0, 500) + "..." : fullText;
         },
-        markdown: function(text) {
+        markdownToHTML: function(text) {
             return marked(text, {sanitize: true});
+        },
+        getPosterURL: function(movie) {
+            var basePath = "https://image.tmdb.org/t/p/w500";
+            var fallbackPath = "http://via.placeholder.com/500x700?text=No+Poster";
+            return movie.poster_path ? basePath + movie.poster_path : fallbackPath;
+        },
+        getTitle: function(movie) {
+            return movie.title ? movie.title : "No Title Available";
+        },
+        getReleaseYear: function(movie) {
+            if (!movie.release_date) return null;
+            return movie.release_date.substring(0, movie.release_date.indexOf("-"));
         }
     },
     watch: {
@@ -78,11 +98,6 @@ let root = new Vue({
                     Object.assign(root.selectedMovie, json); // Merge the two JSON results together
                     root.$forceUpdate();
                 });
-        },
-        query: function(newQuery) {
-            if (history) {
-                history.replaceState({}, newQuery, `/search?q=${encodeURIComponent(newQuery)}`);
-            }         
         }
     },
     created: function() {

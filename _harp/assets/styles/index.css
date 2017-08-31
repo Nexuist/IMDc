@@ -8,16 +8,12 @@
     padding-bottom: 0.5em;
 }
 
-.container.showcase {
-    padding: 15px;
-}
-
 figure.image.showcase-icon {
     /* Every icon should be centered vertically/horizontally within their container */
     display: flex;
     align-items: center; 
     justify-content: center; 
-    height: 350px;
+    height: 350px; /* The icons should have the same height as the TMDB logo so the titles are vertically aligned */
 }
 
 figure.image.showcase-icon i {
