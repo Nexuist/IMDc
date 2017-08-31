@@ -2,7 +2,7 @@ extends _templates/base.jade
 
 block head
     +css("/assets/styles/search.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js") //- 
     script.
         let tmdbKey = "#{tmdbKey}";
     script(src="/assets/scripts/search.js", defer)
