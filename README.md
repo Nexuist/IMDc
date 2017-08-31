@@ -4,12 +4,13 @@ IMDc is a pure frontend movie ratings/reviews browser. Its data is sourced from 
 
 This website was made with the following technologies/frameworks:
 
+* [Harp](http://harpjs.com/) for live testing/compilation
 * [Vue.js](https://vuejs.org/) for SPA functionality
 * [Bulma](https://bulma.io) for CSS
-* [Pug/Jade](https://pugjs.org/api/getting-started.html) as an HTML prepocessor
-* [Harp](http://harpjs.com/) for live testing/compilation
+* [Pug](https://pugjs.org/api/getting-started.html) as an HTML prepocessor
+    * Harp still uses `.jade` for its Pug file extension, usually it's `.pug` though
 
-You can and should use this project to learn how all of these concepts interact together to make a full-blown frontend. It's [open source!](http://github.com/nexuist/IMDc)
+You can and should use this project to learn how all of these concepts interact together to make a full frontend. It's [open source!](http://github.com/nexuist/IMDc)
 
 # Getting Started
 
@@ -27,7 +28,7 @@ To compile, run `./_build.sh` (which is really just `harp compile . ../`) from i
 You should also replace the API key in `_data.json` with your own. You can get one [here](https://www.themoviedb.org/documentation/api).
 
 # Assumptions
-* Modern browser
+* I only tested this in Chrome so your mileage in other browsers may vary...most things _should_ work, though, I tried to use [polyfills](https://en.wikipedia.org/wiki/Polyfill) as much as I could.
 
 # TODO polyfills
 * Nuke `let` keyword

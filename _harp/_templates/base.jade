@@ -1,12 +1,13 @@
+//- This is not a page in itself, but every other page in the site inherits from this one
+//- There are three blocks: description, head, and body that other pages can override to fill in with custom content
 doctype html
 html(lang = "en")
 	head
 		meta(charset = "utf-8")
-		meta(http-equiv="Content-Type" value="text/html; charset=ISO-8859-1")
 		meta(http-equiv="X-UA-Compatible", content = "IE=edge")
 		meta(name="viewport", content="width=device-width,initial-scale=1,shrink-to-fit=no")
 		block description
-			meta(name="description", content="Ratings For the Rest of Us")
+			meta(name="description", content="IMDb, but cooler.")
 		mixin css(href)
 			link(rel="stylesheet", href=href)
 		+css("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css") //- Bulma
@@ -17,5 +18,6 @@ html(lang = "en")
 	body
 		#root
 			include navbar.jade
+			//- Every page should override body and add its own content
 			block body
 			include footer.jade

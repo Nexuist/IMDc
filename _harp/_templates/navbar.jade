@@ -4,9 +4,14 @@ nav.navbar
     .navbar-menu
         .navbar-end
             a.nav-item(href="/about") About
+            //- Only show the searchbar if on the search page
+            //- current is an object provided by harp to every page
             .navbar-item(v-if="'#{current.source}' == 'search'")
                 .field.has-addons
                     .control
-                        input.input(type="text", placeholder="Search for a movie...", v-model="query", v-on:keyup.enter="submitQuery()")
+                        input.input(type="text", 
+                            placeholder="Search for a movie...", 
+                            v-model="query", 
+                            v-on:keyup.enter="query.length > 0 && submitQuery()")
                     .control
                         a.button.is-info(v-on:click="submitQuery()") #[i.fa.fa-search]

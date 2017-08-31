@@ -1,9 +1,13 @@
-let root = new Vue({
+// Set up the searchbar
+var root = new Vue({
     el: "#root",
+    data: {
+        query: null
+    },
     methods: {
         submitQuery: function() {
-            let query = document.getElementById("query").value;
-            window.location.assign(`/search?q=${encodeURIComponent(query)}`);
+            if (query == null || query.length < 1) return;
+            window.location.assign(`/search?q=${encodeURIComponent(this.query)}`);
         }
     }
 });
