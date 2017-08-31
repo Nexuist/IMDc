@@ -25,7 +25,7 @@ Nagivate to http://localhost:9000 to view the site locally.
 
 To compile, run `./_build.sh` (which is really just `harp compile . ../`) from inside `_harp`.
 
-You should also replace the API key in `_data.json` with your own. You can get one [here](https://www.themoviedb.org/documentation/api).
+You should also replace the API key at the top of `search.js` with your own. You can get one [here](https://www.themoviedb.org/documentation/api).
 
 # Assumptions
 * I only tested this in Chrome so your mileage in other browsers may vary...most things _should_ work, though, I tried to use [polyfills](https://en.wikipedia.org/wiki/Polyfill) as much as I could.
@@ -37,11 +37,7 @@ You should also replace the API key in `_data.json` with your own. You can get o
 * URLSearchParams
 
 # TODO Misc
-* Loading bar/spinner for movie posters ?
-* General codebase cleanup
-* Error handling
 * About page (link to this README?)
-* No results page
 * Pagination
 
 # License

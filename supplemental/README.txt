@@ -1,0 +1,1 @@
+These are example responses from the TMDB API that I used to develop the site. I'm saving them here so you can have a frame of reference to understand how the code manipulates them.

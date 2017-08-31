@@ -4,9 +4,6 @@ block head
     +css("/assets/styles/search.css")
      //- JS library that converts markdown to HTML
     script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js")
-    script.
-        //- The API key really shouldn't be public but I don't have a backend to keep it on so ¯\_(ツ)_/¯
-        var tmdbKey = "a487dd6689557f40c93be7ad06f3024f";
     script(src="/assets/scripts/search.js", defer)
     title IMDc Search
 
@@ -25,6 +22,7 @@ block body
                         //- Note: Every single property inside movie is optional, so fallbacks are required b/c nothing is guaranteed to be defined
                         .card-image
                             figure.image
+                                //- Future improvement: Show a loading image until the poster finishes loading
                                 //- Show the poster if it exists, or a fallback cover if it doesn't
                                 //- But hide the fallback poster on mobile so pointless content doesn't fill the screen
                                 img(:src="getPosterURL(movie)", 
@@ -37,7 +35,7 @@ block body
                                     p.subtitle.is-6.has-text-grey(v-else) No ratings available
                             .content
                                 .tags(v-if="movie.genre_ids.length > 0")
-                                    span.tag(v-for="genre in applicableGenres(movie.genre_ids)") {{ genre }}
+                                    span.tag(v-for="genre in getGenres(movie)") {{ genre }}
                                 div(v-else)
                                     small No genres available
                             small.release-date {{ getReleaseYear(movie) }}
