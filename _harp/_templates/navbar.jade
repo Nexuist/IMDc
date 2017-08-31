@@ -3,9 +3,9 @@ nav.navbar
         a.navbar-item(href="/") #[b IMDc]
     .navbar-menu
         .navbar-end
-            .navbar-item
+            .navbar-item(v-if="'#{current.source}' == 'search'")
                 .field.has-addons
                     .control
-                        input.input(type="text", placeholder="Search for a movie...", v-model="query", v-on:keyup.enter="populateData()")
+                        input.input(type="text", placeholder="Search for a movie...", v-model="query", v-on:keyup.enter="submitQuery()")
                     .control
-                        a.button.is-info #[i.fa.fa-search]
+                        a.button.is-info(v-on:click="submitQuery()") #[i.fa.fa-search]

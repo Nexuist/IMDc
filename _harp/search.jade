@@ -2,9 +2,8 @@ extends _templates/base.jade
 
 block head
     +css("/assets/styles/search.css")
-    script(src="https://unpkg.com/vue")
     script.
-        let tmdbKey = "#{tmdbKey}"
+        let tmdbKey = "#{tmdbKey}";
     script(src="/assets/scripts/search.js", defer)
     title IMDc Search
 
@@ -22,7 +21,7 @@ block body
                             img(:src="selectedMovie !== null && selectedMovie.poster_path ? 'https://image.tmdb.org/t/p/w500' + selectedMovie.poster_path : 'http://via.placeholder.com/500x700?text=No+Poster'")
                     .column
                         .content
-                            h1.title.is-5 Quick Stats
+                            h1.title.is-5 Fast Facts
                             mixin stat(key, title)
                                 div(v-if="selectedMovie." + key)
                                     - value = `{{selectedMovie.${key}}}`
@@ -42,7 +41,7 @@ block body
                             +detailed_stat("revenue", "Revenue")
                                 - value = `{{selectedMovie.${property}.format()}}`
                                 span $#{value}
-                            div(v-if="selectedMovie.production_companies")
+                            div(v-if="selectedMovie.production_companies && selectedMovie.production_companies.length > 0")
                                 b Production Companies 
                                 span(v-for="company, index in selectedMovie.production_companies") {{index != 0 ? "," : null}} {{company.name}}
 

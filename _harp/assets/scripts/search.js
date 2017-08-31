@@ -46,6 +46,9 @@ let root = new Vue({
         }
     },
     methods: {
+        submitQuery: function() {
+            this.populateData();
+        },
         populateData: function() {
             let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&query=${this.encodedQuery}&page=1&include_adult=false`;            
             let imdbURI = `https://theimdbapi.org/api/find/movie?title=${this.encodedQuery}`;

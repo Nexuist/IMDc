@@ -2,6 +2,7 @@ extends _templates/base.jade
 
 block head
     +css("/assets/styles/index.css")
+    script(src="/assets/scripts/index.js", defer)
     title IMDc: Ratings for the Rest of Us
 
 block body
@@ -15,19 +16,25 @@ block body
             .container
                 .field.has-addons
                     .control.has-icons-left.is-expanded
-                        input.input(type="text", placeholder="Search for a movie...")
+                        input.input#query(type="text", placeholder="Search for a movie...", v-on:keyup.enter="submitQuery()")
                         span.icon.is-small.is-left
                             i.fa.fa-search
                     .control
-                        a.button.is-info Search
+                        a.button.is-info(v-on:click="submitQuery()") Search
     .container(style="padding:15px;")
         .columns
             .column
-                span.icon.is-large
-                    i.fa.fa-check
+                figure.image(style="display: flex; align-items: center; justify-content: center; height:350px;")
+                    i.fa.fa-bar-chart(style="font-size:15em; color: black; display:inline-block; vertical-align:center;")
+                h1.title.has-text-centered Over 345,000 Movies Listed
+                h1.subtitle.has-text-centered Everything you're looking for, and probably more.
             .column
-                span.icon.is-large
-                    i.fa.fa-check
+                figure.image(style="display: flex; align-items: center; justify-content: center; height:350px;")
+                    i.fa.fa-code(style="font-size:15em; color: black; display:inline-block; vertical-align:center;")
+                h1.title.has-text-centered Open Source
+                h1.subtitle.has-text-centered You can find the source code on #[a(href="http://github.com/nexuist/IMDc", target="_blank") GitHub].
             .column
-                span.icon.is-large
-                    i.fa.fa-check
+                figure.image(style="display: flex; align-items: center; justify-content: center;")
+                    img(src="https://www.themoviedb.org/assets/static_cache/4906bce946a19a848fb161e09dfcd1d2/images/v4/logos/primary-blue.svg", style="height: 350px;")
+                h1.title.has-text-centered Powered by TMDB
+                h2.subtitle.has-text-centered Movie listings and details gratefully provided #[a(href="https://developers.themoviedb.org/", target="_blank") by these guys].
