@@ -2,6 +2,7 @@ extends _templates/base.jade
 
 block head
     +css("/assets/styles/search.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js")
     script.
         let tmdbKey = "#{tmdbKey}";
     script(src="/assets/scripts/search.js", defer)
@@ -45,13 +46,20 @@ block body
                                 b Production Companies 
                                 span(v-for="company, index in selectedMovie.production_companies") {{index != 0 ? "," : null}} {{company.name}}
 
-
                 .movie-section(v-if="selectedMovie.tagline")
                     h1.title.is-5 Tagline
                     p {{selectedMovie.tagline}}
                 .movie-section(v-if="selectedMovie.overview")
                     h1.title.is-5 Overview
                     p {{selectedMovie.overview}}
+                .movie-section(v-if="selectedMovie.reviews && selectedMovie.reviews.total_results >= 1")
+                    h1.title.is-5 Reviews #[a.pull-right(:href="`https://www.themoviedb.org/movie/${selectedMovie.id}/reviews`", target="_blank") View All]
+                    a(v-for="review in selectedMovie.reviews.results", :href="review.url", target="_blank")
+                        .card
+                            .card-content
+                                .content
+                                    h1.title.is-5 {{review.author}}
+                                    p(v-html="markdown(truncateReviewText(review.content))")
 
     .container.is-fluid(style="padding:15px;")
         h1.subtitle(v-if="!tmdb") #[b 0] results

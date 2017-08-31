@@ -1,3 +1,4 @@
+
 function fetchJSON(fromURL) {
     return fetch(new Request(fromURL))
         .then((res) => {
@@ -51,16 +52,20 @@ let root = new Vue({
         },
         populateData: function() {
             let tmdbURI =  `https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&query=${this.encodedQuery}&page=1&include_adult=false`;            
-            let imdbURI = `https://theimdbapi.org/api/find/movie?title=${this.encodedQuery}`;
             fetchJSON(tmdbURI)
                 .then((json) => root.tmdb = json.results)
                 .catch(alert);
         },
-
         applicableGenres: function(genre_ids) {
             return root.genres
                 .filter(genre => genre_ids.includes(genre.id))
                 .map(genre => genre.name)
+        },
+        truncateReviewText: function(fullText) {
+            return fullText.length > 500 ? fullText.substring(0, 500) + "..." : fullText;
+        },
+        markdown: function(text) {
+            return marked(text, {sanitize: true});
         }
     },
     watch: {
