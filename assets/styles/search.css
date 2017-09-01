@@ -1,0 +1,13 @@
+.movie-section {
+  padding: 8px;
+}
+
+.card {
+  height: 100%; /* So every card is the same height */
+}
+
+.release-date {
+  /* Release date should be on the footer of every card */
+  position: absolute;
+  bottom: 1em;
+}

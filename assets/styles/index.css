@@ -1,0 +1,26 @@
+#jumbotron {
+    background-image: url('http://www.bearcastmedia.com/wp-content/uploads/2017/01/cover.jpg'); /* Generic movie theater background */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.title {
+    padding-bottom: 0.5em;
+}
+
+figure.image.showcase-icon {
+    /* Every icon should be centered vertically/horizontally within their container */
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    height: 350px; /* The icons should have the same height as the TMDB logo so the titles are vertically aligned */
+}
+
+figure.image.showcase-icon i {
+    font-size: 15em; /* Make them real big */
+    color: black;
+}
+
+#tmdb-logo {
+    height: 350px; /* SVGs need a defined height or else they will expand to fill their parent */
+}
