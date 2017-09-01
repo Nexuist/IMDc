@@ -1,6 +1,6 @@
 # Introduction
 
-IMDc is a pure frontend movie ratings/reviews browser. Its data is sourced from [The Movie Database (TMDb)](http://themoviedb.org). There are over 345,000 movies available to search for. You can use it [directly](/) or set it up for yourself (see Getting Started).
+IMDc is a pure frontend movie ratings/reviews browser. Its data is sourced from [The Movie Database (TMDb)](http://themoviedb.org). There are over 345,000 movies available to search for. You can use it [directly](http://duro.me/IMDc) or set it up for yourself (see Getting Started).
 
 This website was made with the following technologies/frameworks:
 
