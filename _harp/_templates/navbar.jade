@@ -1,17 +1,18 @@
 nav.navbar
     .navbar-brand   
         a.navbar-item(href="/") #[b IMDc]
-    .navbar-menu
+    .navbar-menu.is-active
         .navbar-end
             a.nav-item(href="/about") About
             //- Only show the searchbar if on the search page
             //- current is an object provided by harp to every page
             .navbar-item(v-if="'#{current.source}' == 'search'")
                 .field.has-addons
-                    .control
+                    .control.is-expanded
+                        //- If the query is longer than 0, submit it starting on page 1
                         input.input(type="text", 
                             placeholder="Search for a movie...", 
                             v-model="query", 
-                            v-on:keyup.enter="query.length > 0 && submitQuery()")
+                            v-on:keyup.enter="query.length > 0 && submitQuery(1)")
                     .control
                         a.button.is-info(v-on:click="submitQuery()") #[i.fa.fa-search]

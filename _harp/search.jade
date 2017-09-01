@@ -8,15 +8,24 @@ block head
     title IMDc Search
 
 block body
+    section#pagination.container.is-fluid.padded
+        nav.pagination.is-centered.is-medium(v-if="results > 0", role="pagination", aria-label="pagination")
+            a.pagination-previous(v-if="page == 1", disabled) Previous
+            a.pagination-previous(v-else, v-on:click="submitQuery(page - 1)") Previous
+            ul.pagination-list
+                li
+                    a.pagination-link(v-for="i in (pages <= 20 ? pages : 20)", :class="{'is-current': i == page}", v-on:click="submitQuery(i)") {{ i }}
+            a.pagination-next(v-if="page == pages", disabled) Next
+            a.pagination-next(v-else, v-on:click="submitQuery(page + 1)") Next
     section#listings.container.is-fluid.padded
         h1.subtitle #[b {{results}}] {{resultsText}}
         //- Show this if no listings are available
-        .has-text-centered(v-if="!tmdb || tmdb.length == 0")
+        .has-text-centered(v-if="results < 0")
             h1.title.is-4.is-spaced TMDB's API may be down, or it may not have the movie you searched for. Try refining your search.
             h2.subtitle.is-6 If you're a developer, check the console for any errors that may have occured.
         //- Show this if there are
         .columns.is-multiline(v-else)
-            .column.is-one-quarter(v-for="movie in tmdb")
+            .column.is-one-quarter(v-for="movie in movies")
                 a(v-on:click="selectedMovie = movie")
                     .card.movie-card
                         //- Note: Every single property inside movie is optional, so fallbacks are required b/c nothing is guaranteed to be defined
