@@ -10,10 +10,16 @@ html(lang = "en")
 			meta(name="description", content="IMDb, but cooler.")
 		mixin css(href)
 			link(rel="stylesheet", href=href)
-		+css("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css") //- Bulma
-		+css("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css") //- Font Awesome
-		+css("/assets/styles/all.css")
+		// Bulma
+		+css("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css")
+		// Font Awesome
+		+css("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css")
+		// Automated polyfilling (!!)
+		script(stc="https://cdn.polyfill.io/v2/polyfill.min.js")
+		// Vue
 		script(src="https://unpkg.com/vue")
+		// Global styling
+		+css("/assets/styles/all.css")
 		block head
 	body
 		#root

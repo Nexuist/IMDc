@@ -14,12 +14,13 @@ block body
             a.pagination-previous(v-else, v-on:click="submitQuery(page - 1)") Previous
             ul.pagination-list
                 li
+                    //- Only show the first 20 pages, because people probably aren't going to search farther than that anyways
                     a.pagination-link(v-for="i in (pages <= 20 ? pages : 20)", :class="{'is-current': i == page}", v-on:click="submitQuery(i)") {{ i }}
             a.pagination-next(v-if="page == pages", disabled) Next
             a.pagination-next(v-else, v-on:click="submitQuery(page + 1)") Next
     section#listings.container.is-fluid.padded
-        h1.subtitle #[b {{results}}] {{resultsText}}
-        //- Show this if no listings are available
+        h1.subtitle #[b {{results}}] {{resultsText}} 
+        //- Show this if there are no listings are available
         .has-text-centered(v-if="results < 0")
             h1.title.is-4.is-spaced TMDB's API may be down, or it may not have the movie you searched for. Try refining your search.
             h2.subtitle.is-6 If you're a developer, check the console for any errors that may have occured.
@@ -48,7 +49,6 @@ block body
                                 div(v-else)
                                     small No genres available
                             small.release-date {{ getReleaseYear(movie) }}
-    //- Start modal (shown when movie clicked)
     section#movie-details.modal.is-active(v-if="selectedMovie")
         //- Click outside the modal to hide it
         .modal-background(v-on:click="selectedMovie = null")
@@ -104,4 +104,3 @@ block body
                                     h1.title.is-5 {{review.author}}
                                     //- We use v-html here so that the results of markdownToHTML are saved directly to DOM
                                     p(v-html="markdownToHTML(truncateReviewText(review.content))")
-    //- End modal    
