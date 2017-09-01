@@ -1,7 +1,12 @@
 extends _templates/base.jade
 
 block head
+    +css("/assets/styles/about.css")
     title IMDc: About
 
 block body
-   p To be written.
+    section#page.container.is-fluid.padded
+        .columns
+            .card.column.is-half.is-offset-one-quarter
+                .card-content
+                    .content!= partial("assets/README.md")
