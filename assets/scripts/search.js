@@ -61,7 +61,8 @@ var root = new Vue({
     methods: {
         submitQuery: function(page) {
             this.page = page;
-            if (history) history.replaceState({}, this.query, `/search?q=${encodeURIComponent(this.query)}&page=${this.page}`);
+            //- Future improvement: Switch to pushState and detect when the URL changes to re-populate data as needed
+            if (history) history.replaceState({}, this.query, `${location.origin + location.pathname}?q=${encodeURIComponent(this.query)}&page=${this.page}`);
             this.populateData();
         },
         populateData: function() {
