@@ -7,7 +7,7 @@ var root = new Vue({
     methods: {
         submitQuery: function() {
             if (this.query == null || this.query.length < 1) return;
-            window.location.assign(`/search?q=${encodeURIComponent(this.query)}`);
+            window.location.assign(window.location.href + `/search?q=${encodeURIComponent(this.query)}`);
         }
     }
 });
